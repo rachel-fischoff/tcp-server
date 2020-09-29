@@ -1,25 +1,33 @@
-// Sets up a chat server
+// sets up a TCP echo server
 const net = require("net");
 
 
-
-const server = net.createServer((c) => {
-  // lets us know when client is connected
+const server = net.createServer((socket) => {
+  // we want to keep track when a client connects and disconnects
   console.log("client connected");
-  c.on("end", () => {
-    //lets us know when client is disconnected
+  socket.on("end", () => {
     console.log("client disconnected");
   });
-  c.write("hello\r\n");
-
-  c.pipe(c);
+  
+  // we want to let the client know that it's connected by sending a message
+  socket.write("hello\r\n");
+  // equivalent to using event listeners to:
+  // write back the same data that the client sends, ie, echo
+  //  socket.on('data', function(chunk) {
+  //    socket.write(chunk);
+  //  });
+  //  socket.on('end', socket.end);
+  socket.pipe(socket);
 });
 
 
-
+// Will throw port errors and other errors
+// TODO clean up nicely, restart
 server.on("error", (err) => {
   throw err;
 });
+
+// Lets us know that the server is up and listening
 server.listen(8080, () => {
   console.log("server bound");
 });
