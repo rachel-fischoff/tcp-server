@@ -1,17 +1,17 @@
-// const express = require('express');
+// Sets up a chat server
 const net = require("net");
 
-// const app = express()
+
 
 const server = net.createServer((c) => {
-  // 'connection' listener.
+  // lets us know when client is connected
   console.log("client connected");
   c.on("end", () => {
+    //lets us know when client is disconnected
     console.log("client disconnected");
   });
   c.write("hello\r\n");
-//   // set encoding 
-//   c.setEncoding('utf-8');
+
   c.pipe(c);
 });
 
@@ -23,3 +23,5 @@ server.on("error", (err) => {
 server.listen(8080, () => {
   console.log("server bound");
 });
+
+

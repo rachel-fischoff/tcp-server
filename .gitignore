@@ -105,3 +105,6 @@ dist
 
 #ssh files
 digital-ocean-key
+
+#docker ignore
+.dockerignore
